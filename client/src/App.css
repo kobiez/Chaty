@@ -1,0 +1,33 @@
+.App {
+  text-align: center;
+}
+
+.view-chat {
+  border: 1px solid black;
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  overflow-y: auto;
+}
+
+.chat-box {
+  border: 1px solid black;
+  width: 500px;
+  height: 50px;
+  margin: auto;
+  margin-top: 10;
+  padding-left: 0;
+}
+
+.inputText {
+  margin-left: 0;
+  float: left;
+  width: 446.9px;
+  height: 47px;
+  border: 1px solid black;
+}
+
+.send-message-btn {
+  float: right;
+  height: 51px;
+}
