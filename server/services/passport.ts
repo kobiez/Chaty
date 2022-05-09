@@ -18,7 +18,7 @@ passport.serializeUser(function (user: Express.User, cb: Function): void {
     cb(null, user);
 });
 
-passport.deserializeUser(function (obj: unknown, cb) {
+passport.deserializeUser(function (obj: unknown, cb): void {
     cb(null, <false | null | undefined>obj);
 });
 
