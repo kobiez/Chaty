@@ -13,6 +13,10 @@ const facebookLoginSchema = new mongoose_1.default.Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: false
+    },
     photo: {
         type: String,
         required: true

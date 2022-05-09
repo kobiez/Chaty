@@ -28,6 +28,7 @@ class MyProjectControler {
                 const facebookLoginDetails: any = new facebookLoginModel({
                     _id: req.user.id,
                     displayName: req.user.displayName,
+                    email: req.user.emails[0].value, 
                     photo: req.user.photos[0].value
                 })
                 await facebookLoginDetails.save();

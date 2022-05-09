@@ -4,7 +4,6 @@ import queryString from 'query-string';
 function ChatArea() {
     const socketUrl = 'ws://localhost:7000';
 
-    const [userId, setUserId] = useState('');
     const [userName, setUserName] = useState('');
     const [userPhoto, setUserPhoto] = useState('');
 
@@ -33,7 +32,6 @@ function ChatArea() {
                 body: JSON.stringify(serchParam),
             });
             const data = await response.json();
-            setUserId(data._id)
             setUserName(data.displayName)
             setUserPhoto(data.photo)
         }
@@ -44,10 +42,8 @@ function ChatArea() {
         ws.onopen = () => {
             console.log('WebSocket Connected');
         };
-        
+
         ws.onmessage = (event) => {
-            console.log('Event from client: ', event)
-            console.log('message from client: ', event.data)
             setShowMessages([event.data, ...showMessages]);
         };
 
@@ -63,7 +59,7 @@ function ChatArea() {
         <div className='chat-area' >
             <h3>Welcome {userName}</h3>
             <img src={userPhoto} alt="userphoto" ></img>
-            <div className='view-chat'>{showMessages.map((message, index) => <p key={index}>{message}</p>)}</div>
+            <div className='view-chat'>{showMessages.map((message, index) => <p key={index}><em>{userName}</em>:&emsp;{message}</p>)}</div>
             <div className='chat-box' >
                 <input className='inputText' type={'text'} onChange={(e) => saveMessage(e.target.value)} />
                 <button type='submit' className='send-message-btn' onClick={() => sendMessage(newMessage)} >Send</button>

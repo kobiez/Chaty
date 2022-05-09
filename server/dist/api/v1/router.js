@@ -10,6 +10,6 @@ const passport_1 = __importDefault(require("passport"));
 const router = express_1.default.Router();
 router.post('/login', controler_1.default.loginLogic);
 router.post('/user', controler_1.default.getFacebookDetails);
-router.get('/facebook', passport_1.default.authenticate('facebook'));
+router.get('/facebook', passport_1.default.authenticate('facebook', { scope: ['email'] }));
 router.get('/facebook/callback', passport_1.default.authenticate('facebook', { failureRedirect: `${process.env.FRONTEND_HOST}/login` }), controler_1.default.facebookCallback);
 exports.default = router;

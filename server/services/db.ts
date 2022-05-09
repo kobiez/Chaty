@@ -6,7 +6,7 @@ class MongoService {
         try {
             await mongoose.connect(<string>uri);
             console.log('Successfully connected to DB');
-        } catch (error) {
+        } catch (error: unknown) {
             console.error(error);
         }
     }

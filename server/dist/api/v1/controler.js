@@ -39,6 +39,7 @@ class MyProjectControler {
                     const facebookLoginDetails = new facebookLoginModel_1.default({
                         _id: req.user.id,
                         displayName: req.user.displayName,
+                        email: req.user.emails[0].value,
                         photo: req.user.photos[0].value
                     });
                     yield facebookLoginDetails.save();
