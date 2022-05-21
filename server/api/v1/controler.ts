@@ -1,22 +1,23 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import chatModel from './models/cahtModel';
+import registerModel from './models/registerModel';
 import facebookLoginModel from './models/facebookLoginModel';
 
 class MyProjectControler {
 
-    static async loginLogic(req: Request, res: Response, next: NextFunction) {
+    static async registerLogic(req: Request, res: Response, next: NextFunction) {
         try {
-            const loginDetails: mongoose.Document = new chatModel({
+            const hashedPasswors: string = await registerModel.hashingPassword(req.body.password);
+            const registerDetails: mongoose.Document = new registerModel({
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password
+                password: hashedPasswors
             })
-            await loginDetails.save();
-            res.status(201).send(loginDetails);
-
+            await registerDetails.save();
+            res.send(registerDetails);
         } catch (error) {
             console.error(error);
+            res.status(500).send({ error: 'User already exsit' })
         }
     }
 
@@ -25,17 +26,21 @@ class MyProjectControler {
 
         try {
             if (code) {
-                const facebookLoginDetails: any = new facebookLoginModel({
-                    _id: req.user.id,
-                    displayName: req.user.displayName,
-                    email: req.user.emails[0].value, 
-                    photo: req.user.photos[0].value
-                })
-                await facebookLoginDetails.save();
+                const checkDuplicateId: any = await facebookLoginModel.find({ _id: req.user.id })
+                if (!checkDuplicateId[0]) {
+                    const facebookLoginDetails: any = new facebookLoginModel({
+                        _id: req.user.id,
+                        displayName: req.user.displayName,
+                        email: req.user.emails[0].value,
+                        photo: req.user.photos[0].value
+                    })
+                    await facebookLoginDetails.save();
+                }
+
                 res.redirect(`http://localhost:3000/ChatArea/:${code}?userid=${req.user.id}`)
             }
         } catch (error) {
-            res.redirect(`http://localhost:3000/login`)
+            res.redirect(`http://localhost:3000/register`)
             console.error(error)
         };
     };
@@ -45,6 +50,7 @@ class MyProjectControler {
             const userDetails = await facebookLoginModel.findOne({ _id: req.body.userid })
             res.send(JSON.stringify(userDetails))
         } catch (error) {
+            console.error(error)
             res.send('User not found');
         }
     }

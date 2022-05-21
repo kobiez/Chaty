@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import queryString from 'query-string';
+import io from 'socket.io-client';
+import { Button, TextField, FormLabel } from '@mui/material';
 
 function ChatArea() {
-    const socketUrl = 'ws://localhost:7000';
+
+    const socket = io('http://localhost:9000');
 
     const [userName, setUserName] = useState('');
     const [userPhoto, setUserPhoto] = useState('');
@@ -11,14 +14,13 @@ function ChatArea() {
         message: ' '
     });
     const [showMessages, setShowMessages] = useState([]);
-    const [ws, setWs] = useState(new WebSocket(socketUrl));
 
     function saveMessage(messageText) {
         setNewMessage({ ...newMessage, message: messageText })
     }
 
     function sendMessage(msgSent) {
-        ws.send(JSON.stringify(msgSent));
+        socket.emit("message", msgSent);
     }
 
     useEffect(() => {
@@ -32,13 +34,13 @@ function ChatArea() {
                 body: JSON.stringify(serchParam),
             });
             const data = await response.json();
-            setUserName(data.displayName)
-            setUserPhoto(data.photo)
+            setUserName(data.displayName);
+            setUserPhoto(data.photo);
         }
         fetchData()
     }, []);
 
-    useEffect(() => {
+    /* useEffect(() => {
         ws.onopen = () => {
             console.log('WebSocket Connected');
         };
@@ -54,16 +56,39 @@ function ChatArea() {
             }
         }
     }, [ws, ws.onopen, ws.onmessage, ws.onclose, showMessages])
+ */
+
+    useEffect(() => {
+        socket.on("messageFromServer", (message) => {
+            setShowMessages([...showMessages, message]);
+        })
+    }, [socket.on])
 
     return (
         <div className='chat-area' >
             <h3>Welcome {userName}</h3>
             <img src={userPhoto} alt="userphoto" ></img>
-            <div className='view-chat'>{showMessages.map((message, index) => <p key={index}><em>{userName}</em>:&emsp;{message}</p>)}</div>
-            <div className='chat-box' >
-                <input className='inputText' type={'text'} onChange={(e) => saveMessage(e.target.value)} />
-                <button type='submit' className='send-message-btn' onClick={() => sendMessage(newMessage)} >Send</button>
-            </div>
+            <div className='view-chat' >{showMessages.map((message, index) => <p key={index}>{message}</p>)}</div>
+            <form className='chat-box' onSubmit={e => e.preventDefault()}>
+                <FormLabel for="inputBox" >Text:</FormLabel  >
+                <TextField className='inputText' id="inputBox" type={'text'}
+                    sx={{
+                        width: '420px',
+                        color: 'primary'
+                    }}
+                    onChange={(e) => saveMessage(e.target.value)}
+                    variant="outlined"
+                    autoComplete='off'
+                    autoFocus
+                    onFocus={(e) => { e.target.value = '' }}
+                />
+                <Button
+                    type='submit'
+                    className='send-message-btn'
+                    variant="contained"
+                    onClick={() => sendMessage(newMessage)} > Send
+                </Button>
+            </form>
         </div>
     )
 }

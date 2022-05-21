@@ -10,24 +10,72 @@
   overflow-y: auto;
 }
 
-.chat-box {
-  border: 1px solid black;
-  width: 500px;
-  height: 50px;
+input {
+  border: none;
+  border-bottom: 1px solid rgb(68, 169, 232);
+  border-radius: 3px;
+  height: 20px;
+}
+
+input[type=text]:focus {
+  outline: none;
+  border: 1px solid rgb(68, 169, 232);
+}
+
+.facebookLoginBtn {
+  text-decoration: none;
+  color: aliceblue;
+}
+
+.register-title{
+  color: rgb(129, 19, 232);
+  width: 450px;
   margin: auto;
-  margin-top: 10;
-  padding-left: 0;
+  margin-bottom: 10px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-shadow:2px 2px 4px rgb(235, 99, 230) ;
 }
 
-.inputText {
-  margin-left: 0;
-  float: left;
-  width: 446.9px;
-  height: 47px;
-  border: 1px solid black;
+.register {
+  border-radius: 5%;
+  margin: auto;
+  width: 500px;
+  height: 325px;
+  text-align: center;
+  background: rgb(237, 234, 239);
+  padding-top: 15px;
 }
 
-.send-message-btn {
-  float: right;
-  height: 51px;
+#user-name {
+  background: rgb(247, 245, 248);
+  margin-bottom: 20px;
+}
+
+#user-name[type=text]:focus {
+  background-color: rgb(196, 227, 243);
+  transition: background-color 0.7s, height 0.7s;
+  height: 30px;
+}
+
+#user-email {
+  background: rgb(247, 245, 248);
+  margin-bottom: 20px;
+}
+
+#user-email[type=text]:focus {
+  background-color: rgb(196, 227, 243);
+  transition: background-color 0.7s, height 0.7s;
+  height: 30px;
+}
+
+#user-password {
+  margin-right: 31px;
+  background: rgb(247, 245, 248);
+  margin-bottom: 10px;
+}
+
+#user-password[type=text]:focus {
+  background-color: rgb(196, 227, 243);
+  transition: background-color 0.7s, height 0.7s;
+  height: 30px;
 }

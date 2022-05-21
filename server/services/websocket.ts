@@ -6,7 +6,7 @@ const wss: WebSocket.Server = new WebSocket.Server({ port: <number | undefined>p
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message: Buffer) {
         const bufferToJson: Object = message.toString();
-        const jsonToObject = JSON.parse(<string>bufferToJson);
+        const jsonToObject: any = JSON.parse(<string>bufferToJson);
         const messageToSend: string = jsonToObject.message;
 
         wss.clients.forEach(function each(client) {

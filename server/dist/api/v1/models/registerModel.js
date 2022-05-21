@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const validator_1 = __importDefault(require("validator"));
-// change to regisetrSchema
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const regisetrSchema = new mongoose_1.default.Schema({
     name: {
         required: true,
@@ -49,6 +49,9 @@ regisetrSchema.pre('save', function (next) {
         throw new Error('User already exist');
     });
 });
-// registerModel
-const registerModel = mongoose_1.default.model('chaty-login', regisetrSchema);
+regisetrSchema.statics.hashingPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
+    const hashedPasswors = yield bcryptjs_1.default.hash(password, 8);
+    return hashedPasswors;
+});
+const registerModel = mongoose_1.default.model('chaty-register', regisetrSchema);
 exports.default = registerModel;

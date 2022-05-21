@@ -3,7 +3,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import router from './router'
 import passport from '../../services/passport';
-import '../../services/websocket';
+import '../../services/socketio'
 
 const app: Express = express();
 
@@ -14,6 +14,6 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveU
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', router)
+app.use('/', router);
 
 export default app;

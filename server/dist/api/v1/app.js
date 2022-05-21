@@ -8,7 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const router_1 = __importDefault(require("./router"));
 const passport_1 = __importDefault(require("../../services/passport"));
-require("../../services/websocket");
+require("../../services/socketio");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
