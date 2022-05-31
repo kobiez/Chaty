@@ -40,29 +40,11 @@ function ChatArea() {
         fetchData()
     }, []);
 
-    /* useEffect(() => {
-        ws.onopen = () => {
-            console.log('WebSocket Connected');
-        };
-
-        ws.onmessage = (event) => {
-            setShowMessages([event.data, ...showMessages]);
-        };
-
-        return () => {
-            ws.onclose = () => {
-                console.log('WebSocket Disconnected');
-                setWs(new WebSocket(socketUrl));
-            }
-        }
-    }, [ws, ws.onopen, ws.onmessage, ws.onclose, showMessages])
- */
-
     useEffect(() => {
         socket.on("messageFromServer", (message) => {
             setShowMessages([...showMessages, message]);
         })
-    }, [socket.on])
+    }, [socket])
 
     return (
         <div className='chat-area' >
@@ -80,7 +62,7 @@ function ChatArea() {
                     variant="outlined"
                     autoComplete='off'
                     autoFocus
-                    onFocus={(e) => { e.target.value = '' }}
+                    /* onFocus={(e) => { e.target.value = '' }} */
                 />
                 <Button
                     type='submit'
