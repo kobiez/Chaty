@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import MongoService from '../../services/db';
 import server from '../../services/socketio';
+import 'dotenv/config';
 
 let mongod: MongoMemoryServer;
 
