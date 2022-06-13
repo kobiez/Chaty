@@ -5,7 +5,7 @@ import 'dotenv/config';
 const FacebookStarategy: any = FbStrategy.Strategy;
 
 passport.use(new FacebookStarategy({
-    clientID: process.env.CLIENT_ID,
+    clientID: process.env.CLIENT_ID || 1234567890,
     clientSecret: process.env.CLIENT_SECRET,
     callbackURL: '/facebook/callback',
     profileFields: ['id', 'displayName', 'email', 'name', 'photos'],
