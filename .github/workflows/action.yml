@@ -9,11 +9,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install modules
       working-directory: server
-      run: npm
+      run: yarn
       env: 
         CLIENT_ID: 698163761330217
     - name: Run tests
       working-directory: server
-      run: npm test
+      run: yarn test
       env: 
         CLIENT_ID: 698163761330217
