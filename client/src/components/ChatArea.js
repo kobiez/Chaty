@@ -1,27 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import queryString from 'query-string';
+import { Button, FormLabel } from '@mui/material';
 import io from 'socket.io-client';
-import { Button, TextField, FormLabel } from '@mui/material';
+
+const socket = io('http://localhost:9000');
 
 function ChatArea() {
 
-    const socket = io('http://localhost:9000');
-
-    const [userName, setUserName] = useState('');
-    const [userPhoto, setUserPhoto] = useState('');
-
-    const [newMessage, setNewMessage] = useState({
-        message: ' '
-    });
-    const [showMessages, setShowMessages] = useState([]);
-
-    function saveMessage(messageText) {
-        setNewMessage({ ...newMessage, message: messageText })
-    }
-
-    function sendMessage(msgSent) {
-        socket.emit("message", msgSent);
-    }
+    const [userName, setUserName] = useState(''),
+        [userPhoto, setUserPhoto] = useState(''),
+        [newMessage, setNewMessage] = useState({
+            message: '',
+            user: '',
+            time: ''
+        }),
+        [showMessages, setShowMessages] = useState([]),
+        clearInput = useRef(),
+        autoScroll = useRef();
 
     useEffect(() => {
         async function fetchData() {
@@ -36,39 +31,58 @@ function ChatArea() {
             const data = await response.json();
             setUserName(data.displayName);
             setUserPhoto(data.photo);
+            setNewMessage({ ...newMessage, user: data.displayName })
         }
         fetchData()
     }, []);
 
+    function saveMessage(messageText) {
+        setNewMessage({ ...newMessage, message: messageText })
+    }
+
+    function sendMessage(msgSent) {
+        socket.emit("message", msgSent);
+        clearInput.current.value = '';
+    }
+
     useEffect(() => {
-        socket.on("messageFromServer", (message) => {
-            setShowMessages([...showMessages, message]);
+        socket.on("messageFromServer", (message, currentTime) => {
+            setShowMessages([...showMessages, ...[{ user: message.user, message: message.message, time: currentTime }]])
         })
-    }, [socket])
+    }, [showMessages])
+
+    useEffect(() => {
+        autoScroll.current.autoFocus = true
+        autoScroll.current.scrollTop = autoScroll.current.scrollHeight;
+    },[showMessages])
+
+    const userMessageMap = showMessages.map((message, index) => <div key={index} className="chat-bubble" >
+        <span style={{ fontWeight: "bold", fontSize:'13px' }} >{message.user}</span><br></br>
+        <span style={{ position: 'relative', left: 0 }}>{message.message}</span>
+        <p style={{ fontStyle: "italic", fontWeight: "lighter", color: 'gray', margin:"0px 0px 1px 410px", fontSize:'10px' }}>{message.time}</p>
+    </div>)
 
     return (
         <div className='chat-area' >
-            <h3>Welcome {userName}</h3>
-            <img src={userPhoto} alt="userphoto" ></img>
-            <div className='view-chat' >{showMessages.map((message, index) => <p key={index}>{message}</p>)}</div>
+            <h3 className='welcome-message' >Welcome {userName}</h3>
+            <img src={userPhoto} alt="userphoto" style={{ borderRadius: '100%' }} />
+            <div className='view-chat' ref={autoScroll} >
+                {userMessageMap}
+            </div>
             <form className='chat-box' onSubmit={e => e.preventDefault()}>
-                <FormLabel for="inputBox" >Text:</FormLabel  >
-                <TextField className='inputText' id="inputBox" type={'text'}
-                    sx={{
-                        width: '420px',
-                        color: 'primary'
-                    }}
+                <FormLabel for="inputBox" style={{ color: 'purple', fontSize: '18px', fontWeight: 'bold' }} >Message:</FormLabel  >
+                <input className='chat-input' id="inputBox" type={'text'}
                     onChange={(e) => saveMessage(e.target.value)}
-                    variant="outlined"
                     autoComplete='off'
-                    autoFocus
-                    /* onFocus={(e) => { e.target.value = '' }} */
+                    ref={clearInput}
                 />
                 <Button
                     type='submit'
                     className='send-message-btn'
                     variant="contained"
-                    onClick={() => sendMessage(newMessage)} > Send
+                    onClick={() => sendMessage(newMessage)}
+                    sx={{ color: 'purple', backgroundColor: 'orange', height: '42px' }}
+                > Send
                 </Button>
             </form>
         </div>

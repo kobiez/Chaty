@@ -24,6 +24,7 @@ const regisetrSchema = new mongoose_1.default.Schema({
     },
     email: {
         required: true,
+        unique: true,
         type: String,
         trim: true,
         validate: (value) => {
