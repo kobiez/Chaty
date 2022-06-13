@@ -30,6 +30,7 @@ In order to use the app you need to install all the dependencies.
 
 In the near future I plan to:
 
+- Use SocketIO(It's already in progress).
 - Meanwhile, only the login with facebook works, I'll also fix it soon.
 - Add rooms, so each group will have a private room to chat inside it.
 - Save the messages inside mongodb.
