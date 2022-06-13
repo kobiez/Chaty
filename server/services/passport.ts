@@ -5,13 +5,14 @@ import 'dotenv/config';
 const FacebookStarategy: any = FbStrategy.Strategy;
 
 passport.use(new FacebookStarategy({
-    clientID: process.env.CLIENT_ID || 1234567890,
+    clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     callbackURL: '/facebook/callback',
     profileFields: ['id', 'displayName', 'email', 'name', 'photos'],
     passReqToCallback: true,
 },
-    function (req: Request, accessToken: string, refreshToken: string, profile: string, cb: Function): Function {
+    async function (req: Request, accessToken: string, refreshToken: string, profile: string, cb: Function): Promise<Function> {
+        console.log(accessToken)
         return cb(null, profile);
     }));
 

@@ -3,11 +3,13 @@ on: pull_request
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      CLIENT_ID=698163761330217
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
       working-directory: server
-      run: yarn
+      run: npm
     - name: Run tests
       working-directory: server
-      run: yarn test
+      run: npm test
