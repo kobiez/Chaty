@@ -4,16 +4,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env: 
-      CLIENT_ID: 698163761330217
+      CLIENT_ID: 1234567890
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
       working-directory: server
       run: yarn
       env: 
-        CLIENT_ID: 698163761330217
+        CLIENT_ID: 1234567890
     - name: Run tests
       working-directory: server
       run: yarn test
       env: 
-        CLIENT_ID: 698163761330217
+        CLIENT_ID: 1234567890
