@@ -2,7 +2,7 @@ import request from "supertest";
 import httpStatus from 'http-status';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import MongoService from '../../services/db';
-import server from '../../services/socketio'
+import server from '../../services/socketio';
 
 let mongod: MongoMemoryServer;
 

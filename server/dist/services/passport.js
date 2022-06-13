@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const passport_1 = __importDefault(require("passport"));
 const FbStrategy = __importStar(require("passport-facebook"));
+require("dotenv/config");
 const FacebookStarategy = FbStrategy.Strategy;
 passport_1.default.use(new FacebookStarategy({
     clientID: process.env.CLIENT_ID,

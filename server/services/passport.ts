@@ -1,5 +1,6 @@
 import passport from 'passport';
 import * as FbStrategy from 'passport-facebook';
+import 'dotenv/config';
 
 const FacebookStarategy: any = FbStrategy.Strategy;
 
