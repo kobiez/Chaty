@@ -3,17 +3,14 @@ on: pull_request
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      CLIENT_ID=698163761330217
+    env: CLIENT_ID=698163761330217
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
       working-directory: server
       run: npm
-      env:
-        CLIENT_ID=698163761330217
+      env: CLIENT_ID=698163761330217
     - name: Run tests
       working-directory: server
       run: npm test
-      env:
-        CLIENT_ID=698163761330217
+      env: CLIENT_ID=698163761330217
