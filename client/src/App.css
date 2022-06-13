@@ -1,33 +1,143 @@
-.App {
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-image: url('./images/chat-background2.jpg');
+  background-size: auto;
+  background-position: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   text-align: center;
 }
 
+.headline {
+  color: rgb(217, 0, 255);
+  padding: 0;
+  font-size: 100px;
+  margin: 0 auto;
+  font-style: oblique;
+  text-shadow: 2px 2px 2px rgb(100, 100, 241);
+}
+
+.welcome-message {
+  color: rgb(5, 32, 239);
+  margin: 10px auto;
+  padding: 0;
+  font-size: 25px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgb(172, 228, 129);
+}
+
 .view-chat {
-  border: 1px solid black;
-  width: 500px;
-  height: 500px;
-  margin: auto;
+  border: 1.5px solid purple;
+  width: 700px;
+  height: 800px;
+  margin: 5px auto;
+  overflow-wrap: break-word;
   overflow-y: auto;
+  background-image: url('./images/inner-chat-background.jpg');
+}
+
+.chat-bubble {
+  box-sizing: border-box;
+  text-align: left;
+  margin: 10px 0;
+  background-color: rgb(241, 229, 205);
+  border-radius: 1.15rem;
+  line-height: 1.25rem;
+  max-width: 75%;
+  padding: 5px 5px 0.5px 5px;
+  position: relative;
+  word-wrap: break-word;
 }
 
 .chat-box {
-  border: 1px solid black;
-  width: 500px;
-  height: 50px;
+  position: relative;
+  right: 40px;
+}
+
+.chat-input {
+  width: 622px;
+  height: 40px;
+  border: 1px solid orange;
+  margin-top: 15px;
+/*   overflow-wrap: break-word;
+ */  overflow: auto;
+}
+
+.chat-input[type=text]:focus {
+  outline: none;
+  border: 1px solid orange;
+}
+
+.register-input {
+  border: none;
+  border-bottom: 1px solid rgb(68, 169, 232);
+  border-radius: 3px;
+  height: 20px;
+}
+
+.register-input[type=text]:focus {
+  outline: none;
+  border: 1px solid rgb(68, 169, 232);
+}
+
+.facebookLoginBtn {
+  text-decoration: none;
+  color: aliceblue;
+}
+
+.register-title {
+  color: rgb(129, 19, 232);
+  width: 450px;
   margin: auto;
-  margin-top: 10;
-  padding-left: 0;
+  margin-bottom: 10px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-shadow: 2px 2px 4px rgb(235, 99, 230);
 }
 
-.inputText {
-  margin-left: 0;
-  float: left;
-  width: 446.9px;
-  height: 47px;
-  border: 1px solid black;
+.register {
+  border-radius: 5%;
+  margin: auto;
+  width: 500px;
+  height: 325px;
+  text-align: center;
+  background: rgb(237, 234, 239);
+  padding-top: 15px;
 }
 
-.send-message-btn {
-  float: right;
-  height: 51px;
+#user-name {
+  background: rgb(247, 245, 248);
+  margin-bottom: 20px;
+}
+
+#user-name[type=text]:focus {
+  background-color: rgb(196, 227, 243);
+  transition: background-color 0.7s, height 0.7s;
+  height: 30px;
+}
+
+#user-email {
+  background: rgb(247, 245, 248);
+  margin-bottom: 20px;
+}
+
+#user-email[type=text]:focus {
+  background-color: rgb(196, 227, 243);
+  transition: background-color 0.7s, height 0.7s;
+  height: 30px;
+}
+
+#user-password {
+  margin-right: 31px;
+  background: rgb(247, 245, 248);
+  margin-bottom: 10px;
+}
+
+#user-password[type=text]:focus {
+  background-color: rgb(196, 227, 243);
+  transition: background-color 0.7s, height 0.7s;
+  height: 30px;
 }

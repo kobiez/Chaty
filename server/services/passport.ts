@@ -1,5 +1,6 @@
 import passport from 'passport';
 import * as FbStrategy from 'passport-facebook';
+import 'dotenv/config';
 
 const FacebookStarategy: any = FbStrategy.Strategy;
 
@@ -10,7 +11,8 @@ passport.use(new FacebookStarategy({
     profileFields: ['id', 'displayName', 'email', 'name', 'photos'],
     passReqToCallback: true,
 },
-    function (req: Request, accessToken: string, refreshToken: string, profile: string, cb: Function): Function {
+    async function (req: Request, accessToken: string, refreshToken: string, profile: string, cb: Function): Promise<Function> {
+        console.log(accessToken)
         return cb(null, profile);
     }));
 
@@ -18,7 +20,7 @@ passport.serializeUser(function (user: Express.User, cb: Function): void {
     cb(null, user);
 });
 
-passport.deserializeUser(function (obj: unknown, cb) {
+passport.deserializeUser(function (obj: unknown, cb): void {
     cb(null, <false | null | undefined>obj);
 });
 

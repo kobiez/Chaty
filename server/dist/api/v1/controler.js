@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cahtModel_1 = __importDefault(require("./models/cahtModel"));
+const registerModel_1 = __importDefault(require("./models/registerModel"));
 const facebookLoginModel_1 = __importDefault(require("./models/facebookLoginModel"));
 class MyProjectControler {
-    static loginLogic(req, res, next) {
+    static registerLogic(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const loginDetails = new cahtModel_1.default({
+                const hashedPasswors = yield registerModel_1.default.hashingPassword(req.body.password);
+                const registerDetails = new registerModel_1.default({
                     name: req.body.name,
                     email: req.body.email,
-                    password: req.body.password
+                    password: hashedPasswors
                 });
-                yield loginDetails.save();
-                res.status(201).send(loginDetails);
+                yield registerDetails.save();
+                res.send(registerDetails);
             }
             catch (error) {
                 console.error(error);
+                res.status(500).send({ error: 'User already exsit' });
             }
         });
     }
@@ -36,18 +38,21 @@ class MyProjectControler {
             const { code } = req.query;
             try {
                 if (code) {
-                    const facebookLoginDetails = new facebookLoginModel_1.default({
-                        _id: req.user.id,
-                        displayName: req.user.displayName,
-                        email: req.user.emails[0].value,
-                        photo: req.user.photos[0].value
-                    });
-                    yield facebookLoginDetails.save();
+                    const checkDuplicateId = yield facebookLoginModel_1.default.find({ _id: req.user.id });
+                    if (!checkDuplicateId[0]) {
+                        const facebookLoginDetails = new facebookLoginModel_1.default({
+                            _id: req.user.id,
+                            displayName: req.user.displayName,
+                            email: req.user.emails[0].value,
+                            photo: req.user.photos[0].value
+                        });
+                        yield facebookLoginDetails.save();
+                    }
                     res.redirect(`http://localhost:3000/ChatArea/:${code}?userid=${req.user.id}`);
                 }
             }
             catch (error) {
-                res.redirect(`http://localhost:3000/login`);
+                res.redirect(`http://localhost:3000/register`);
                 console.error(error);
             }
             ;
@@ -61,6 +66,7 @@ class MyProjectControler {
                 res.send(JSON.stringify(userDetails));
             }
             catch (error) {
+                console.error(error);
                 res.send('User not found');
             }
         });

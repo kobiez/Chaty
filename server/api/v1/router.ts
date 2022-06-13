@@ -5,10 +5,13 @@ import passport from 'passport';
 
 const router: Router = express.Router();
 
-router.post('/login', MyProjectControler.loginLogic);
+router.post('/register', MyProjectControler.registerLogic);
 router.post('/user', MyProjectControler.getFacebookDetails);
 
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
-router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: `${process.env.FRONTEND_HOST}/login` }), MyProjectControler.facebookCallback);
+router.get('/facebook/callback', passport.authenticate('facebook',
+    { failureRedirect: `${process.env.FRONTEND_HOST}/register` }),
+    MyProjectControler.facebookCallback
+);
 
 export default router;
