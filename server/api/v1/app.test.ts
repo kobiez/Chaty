@@ -2,9 +2,9 @@ import request from "supertest";
 import httpStatus from 'http-status';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import MongoService from '../../services/db';
-import app from '../v1/app'
+import server from '../../services/socketio'
 
-let mongod;
+let mongod: MongoMemoryServer;
 
 beforeAll(async () => {
     mongod = await MongoMemoryServer.create();
@@ -17,7 +17,7 @@ afterEach(async () => await MongoService.clearDb());
 afterAll(async () => await Promise.all([MongoService.closeDb(), mongod.stop()]))
 
 test('Should return OK status for saving user login data', async () => {
-    await request(app)
+    await request(server)
         .post('/register')
         .send({
             name: 'John Doe',
