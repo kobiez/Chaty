@@ -54,12 +54,12 @@ function ChatArea() {
     useEffect(() => {
         autoScroll.current.autoFocus = true
         autoScroll.current.scrollTop = autoScroll.current.scrollHeight;
-    },[showMessages])
+    }, [showMessages])
 
     const userMessageMap = showMessages.map((message, index) => <div key={index} className="chat-bubble" >
-        <span style={{ fontWeight: "bold", fontSize:'13px' }} >{message.user}</span><br></br>
+        <span style={{ fontWeight: "bold", fontSize: '13px' }} >{message.user}</span><br></br>
         <span style={{ position: 'relative', left: 0 }}>{message.message}</span>
-        <p style={{ fontStyle: "italic", fontWeight: "lighter", color: 'gray', margin:"0px 0px 1px 410px", fontSize:'10px' }}>{message.time}</p>
+        <p style={{ fontStyle: "italic", fontWeight: "lighter", color: 'gray', margin: "0px 0px 1px 410px", fontSize: '10px' }}>{message.time}</p>
     </div>)
 
     return (

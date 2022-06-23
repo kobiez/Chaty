@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ImFacebook2 } from 'react-icons/im'
-import { Button, FormLabel } from '@mui/material';
+import { ImFacebook2 } from 'react-icons/im';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 function ChatyRegister() {
     const navigate = useNavigate();
@@ -40,27 +45,66 @@ function ChatyRegister() {
             console.error(error);
         }
     }
-
+    // 
     return (
-        <div>
-            <h2 className='register-title' >Register</h2>
-            <div className='register'>
-                <FormLabel for='user-name' >Name: </FormLabel>
-                <input type={'text'} className='register-input' id='user-name' placeholder='Your name' onChange={(e) => userNameRegister(e.target.value)} /> <br />
-                <FormLabel for='user-email' >Email: </FormLabel>
-                <input type={'text'} className='register-input' id='user-email' placeholder='Your email' onChange={(e) => userEmailRegister(e.target.value)} /><br />
-                <FormLabel for='user-password' >Password: </FormLabel>
-                <input type={'text'} className='register-input' id='user-password' placeholder='Your password' onChange={(e) => userPasswordRegister(e.target.value)} /><br />
-                <Button type='submit' variant="contained" style={{ margin:'10px 0 10px 0' }} onClick={() => sendRegisterToServer(registerData)}>Submit</Button><br />
-                <FormLabel>Already registered? <a href='http://localhost:3000/login' >Login</a></FormLabel> 
-                <FormLabel><p>or</p></FormLabel>
-                <Button variant="contained">
-                    <a className='facebookLoginBtn' href='http://localhost:9000/facebook'  >
-                        <ImFacebook2 size={25} /> &nbsp;&nbsp; Login with facebook
-                    </a>
+        <Container className="justify-content-md-center border border-0 rounded-5 bg-light">
+            <Row >
+                <Col >
+                    <h2 className='register-title text-muted my-3'>Register</h2>
+                </Col >
+            </Row>
+            <Form.Group className="mb-3 lead text-muted">
+                <Row className="justify-content-md-center mb-3" style={{ fontSize: '15px' }}>
+                    <Col md={4}>
+                        <FloatingLabel label="Your name" >
+                            <Form.Control type={'text'}
+                                className='register-input'
+                                id='user-name'
+                                placeholder='Your name'
+                                onChange={(e) => userNameRegister(e.target.value)} />
+                        </FloatingLabel>
+                    </Col>
+                </Row>
+                <Row className="justify-content-md-center mb-3" style={{ fontSize: '15px' }}>
+                    <Col md={4}>
+                        <FloatingLabel label="Your email">
+                            <Form.Control type={'email'}
+                                className='register-input'
+                                id='user-email'
+                                placeholder='Your email'
+                                onChange={(e) => userEmailRegister(e.target.value)} />
+                        </FloatingLabel>
+                    </Col>
+                </Row>
+                <Row className="justify-content-md-center mb-3" style={{ fontSize: '15px' }}>
+                    <Col md={4}>
+                        <FloatingLabel label="Your password">
+                            <Form.Control type={'password'}
+                                className='register-input'
+                                id='user-password'
+                                placeholder='Your password'
+                                onChange={(e) => userPasswordRegister(e.target.value)} />
+                        </FloatingLabel>
+                    </Col>
+                </Row>
+                <Button className='mt-2'
+                    type='submit'
+                    onClick={() => sendRegisterToServer(registerData)}>
+                    Submit
                 </Button>
-            </div>
-        </div >
+            </Form.Group>
+            <p className='lead'>Already registered?
+                <a href='http://localhost:3000/login' >Login</a>
+            </p>
+            <p className='lead'>or</p>
+            <Button className='mb-2'>
+                <a className='facebookLoginBtn'
+                    href='http://localhost:9000/facebook'
+                    style={{ color: 'white', textDecoration: 'none' }} >
+                    <ImFacebook2 size={25} /> &nbsp;&nbsp; Login with facebook
+                </a>
+            </Button>
+        </Container >
     )
 }
 
