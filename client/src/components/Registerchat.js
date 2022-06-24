@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { ImFacebook2 } from 'react-icons/im';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 function ChatyRegister() {
@@ -97,7 +97,7 @@ function ChatyRegister() {
                 <a href='http://localhost:3000/login' >Login</a>
             </p>
             <p className='lead'>or</p>
-            <Button className='mb-2'>
+            <Button className='mb-4'>
                 <a className='facebookLoginBtn'
                     href='http://localhost:9000/facebook'
                     style={{ color: 'white', textDecoration: 'none' }} >

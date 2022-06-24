@@ -6,7 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App container text-center">
+    <div className="App text-center">
       <h1 className='headline display-4 text-primary fw-normal'>Chaty</h1>
       <Routes>
         <Route path="/" element={<ChatyRegister />} />

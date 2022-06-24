@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -25,23 +25,35 @@ body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-weight: bold;
   text-shadow: 1px 1px 1px rgb(172, 228, 129);
-}
+} */
 
 .view-chat {
-  border: 1.5px solid purple;
-  width: 700px;
+  border: 1px solid rgba(13, 110, 253, 0.5);
   height: 800px;
-  margin: 5px auto;
   overflow-wrap: break-word;
   overflow-y: auto;
-  background-image: url('./images/inner-chat-background.jpg');
+  text-align: left;
+  /* background-image: url('./images/inner-chat-background.jpg'); */
 }
 
+.message-time {
+  font-style: italic;
+  font-weight: lighter;
+  color: gray;
+  margin: 0px 0px 1px 410px;
+  font-size: 10px;
+}
+
+.chat-input {
+  border: 1px solid rgba(13, 110, 253, 0.5);
+}
+
+/*
 .chat-bubble {
   box-sizing: border-box;
   text-align: left;
   margin: 10px 0;
-  background-color: rgb(241, 229, 205);
+  background-color: rgba(9, 94, 242, 0.5);
   border-radius: 1.15rem;
   line-height: 1.25rem;
   max-width: 75%;
@@ -49,7 +61,7 @@ body {
   position: relative;
   word-wrap: break-word;
 }
-
+/*
 .chat-box {
   position: relative;
   right: 40px;
@@ -61,7 +73,6 @@ body {
   border: 1px solid orange;
   margin-top: 15px;
   /*   overflow-wrap: break-word;
- */
   overflow: auto;
 }
 
@@ -138,4 +149,4 @@ body {
   background-color: rgb(196, 227, 243);
   transition: background-color 0.7s, height 0.7s;
   height: 30px;
-}
+}*/
