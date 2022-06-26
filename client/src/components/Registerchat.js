@@ -47,7 +47,7 @@ function ChatyRegister() {
     }
     // 
     return (
-        <Container className="justify-content-md-center border border-0 rounded-5 bg-light">
+        <Container className="justify-content-center border border-0 rounded-5 bg-light">
             <Row >
                 <Col >
                     <h2 className='register-title text-muted my-3'>Register</h2>

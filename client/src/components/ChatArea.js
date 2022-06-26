@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Image from 'react-bootstrap/Image'
+import Image from 'react-bootstrap/Image';
 
 const socket = io('http://localhost:9000');
 
@@ -67,14 +67,14 @@ function ChatArea() {
     }, [showMessages])
 
     const userMessageMap = showMessages.map((message, index) =>
-        <div key={index} className="chat-bubble" >
+        <div key={index} className="chat-bubble">
             <span style={{ fontWeight: "bold", fontSize: '13px' }} >{message.user}</span><br></br>
             <span style={{ position: 'relative', left: 0 }}>{message.message}</span>
-            <p className='message-time'>{message.time}</p>
+            <p className='message-time '>{message.time}</p>
         </div>)
 
     return (
-        <Container className='chat-area justify-content-center'>
+        <Container >
             <Row>
                 <Col>
                     <h3 className='welcome-message text-muted' >Welcome {userName}</h3>
@@ -91,15 +91,15 @@ function ChatArea() {
             <Row className='justify-content-center'>
                 <Col className='view-chat rounded-2'
                     xxl={6} xl={7} lg={8} md={10} sm={10} xs={10}
-                     ref={autoScroll}
-                     >
+                    ref={autoScroll}
+                >
                     {userMessageMap}
                 </Col>
             </Row>
             <Form onSubmit={e => e.preventDefault()} >
-                <Form.Group className='chat-box justify-content-center' >
+                <Form.Group className='chat-box' >
                     <Row className='justify-content-center'>
-                        <Col xxl={6} xl={7} lg={8} md={10} sm={10} xs={10}>
+                        <Col xxl={6} xl={7} lg={8} md={10} sm={10} xs={10} className="p-0" >
                             <FloatingLabel label="My message:" className='text-muted'>
                                 <Form.Control className='chat-input mt-1'
                                     id="inputBox"
