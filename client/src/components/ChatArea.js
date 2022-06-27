@@ -74,57 +74,62 @@ function ChatArea() {
         </div>)
 
     return (
-        <Container >
-            <Row>
-                <Col>
-                    <h3 className='welcome-message text-muted' >Welcome {userName}</h3>
+        <Container fluid className='justify-content-center main-chat-container' >
+            <Row >
+                <Col >
+                    <h3 className='welcome-message text-muted bg-light mb-0' >Welcome {userName}</h3>
                 </Col>
             </Row>
-            <Row className='justify-content-center'>
-                <Col>
+            <Row>
+                <Col className="bg-light">
                     <Image src={userPhoto}
                         className="rounded-circle pb-1"
                         alt="userphoto"
                     />
                 </Col>
             </Row>
-            <Row className='justify-content-center'>
-                <Col className='view-chat rounded-2'
-                    xxl={6} xl={7} lg={8} md={10} sm={10} xs={10}
-                    ref={autoScroll}
+            <Row className='d-flex flex-nowrap align-items-start justify-content-between'>
+                <Col className='ms-4 me-2 my-2 rooms-area' xxl={2} xl={2} lg={2} md={3} sm={3} xs={2}>
+                    rooms\online-users
+                </Col>
+                <Col className='ms-4'
+                    xxl={4} xl={5} lg={5} md={5} sm={5} xs={6}
+                    style={{ marginRight: "35%" }}
                 >
-                    {userMessageMap}
+                    <Row>
+                        <Col className='view-chat rounded-2 my-2'
+                            ref={autoScroll}
+                        >
+                            {userMessageMap}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="p-0">
+                            <Form onSubmit={e => e.preventDefault()} >
+                                <Form.Group className='chat-box' >
+                                    <FloatingLabel label="My message:" className='text-muted'>
+                                        <Form.Control className='chat-input '
+                                            id="inputBox"
+                                            type={'text'}
+                                            onChange={(e) => saveMessage(e.target.value)}
+                                            autoComplete='off'
+                                            ref={clearInput}
+                                            placeholder="Message"
+                                        />
+                                    </FloatingLabel>
+                                    <Button
+                                        type='submit'
+                                        onClick={() => sendMessage(newMessage)}
+                                        style={{ width: '30%', marginTop: '5px' }}
+                                        className="bi bi-send"
+                                    > Send
+                                    </Button>
+                                </Form.Group>
+                            </Form>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
-            <Form onSubmit={e => e.preventDefault()} >
-                <Form.Group className='chat-box' >
-                    <Row className='justify-content-center'>
-                        <Col xxl={6} xl={7} lg={8} md={10} sm={10} xs={10} className="p-0" >
-                            <FloatingLabel label="My message:" className='text-muted'>
-                                <Form.Control className='chat-input mt-1'
-                                    id="inputBox"
-                                    type={'text'}
-                                    onChange={(e) => saveMessage(e.target.value)}
-                                    autoComplete='off'
-                                    ref={clearInput}
-                                    placeholder="Message"
-                                />
-                            </FloatingLabel>
-                        </Col>
-                    </Row>
-                    <Row className='justify-content-center'>
-                        <Col >
-                            <Button
-                                type='submit'
-                                onClick={() => sendMessage(newMessage)}
-                                size='lg'
-                                style={{ width: '30%', marginTop: '5px' }}
-                            > Send
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form.Group>
-            </Form>
         </Container>
     )
 }

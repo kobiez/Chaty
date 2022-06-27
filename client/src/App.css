@@ -1,9 +1,22 @@
+.App,
+.main-chat-container {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .view-chat {
   border: 1px solid rgba(13, 110, 253, 0.5);
   height: 800px;
   overflow-wrap: break-word;
   overflow-y: auto;
   text-align: left;
+}
+
+.rooms-area {
+  border: 1px solid rgba(13, 110, 253, 0.5);
+  height: 800px;
+  max-width: 400px;
 }
 
 .message-time {
