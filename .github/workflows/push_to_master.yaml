@@ -21,9 +21,4 @@ jobs:
         with:
           username: ${{ secrets.MY_DOCKERHUB_USERNAME }}
           password: ${{ secrets.MY_DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: matanco1/test-action:latest
+ 
