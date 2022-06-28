@@ -23,6 +23,7 @@ jobs:
           password: ${{ secrets.MY_DOCKERHUB_TOKEN }}
       -
         name: Build and push
+        working-directory: server
         uses: docker/build-push-action@v3
         with:
           push: true
