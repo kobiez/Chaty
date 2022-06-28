@@ -12,7 +12,7 @@ passport.use(new FacebookStarategy({
     passReqToCallback: true,
 },
     async function (req: Request, accessToken: string, refreshToken: string, profile: string, cb: Function): Promise<Function> {
-        console.log(accessToken)
+        
         return cb(null, profile);
     }));
 

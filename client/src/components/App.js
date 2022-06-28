@@ -6,12 +6,14 @@ import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <h1 className='headline'>Chaty</h1>
+    <div className="App container-fluid text-center">
+      <h1 className='headline display-4 text-primary fw-normal bg-light mb-0 pb-1'>
+        Chaty
+      </h1>
       <Routes>
         <Route path="/" element={<ChatyRegister />} />
         <Route path="/login" element={<LoginToChat />} />
-        <Route path="/ChatArea/:code"element={<ChatArea />} />
+        <Route path="/ChatArea/:code" element={<ChatArea />} />
       </Routes>
     </div>
   );

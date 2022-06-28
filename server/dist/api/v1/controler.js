@@ -48,11 +48,16 @@ class MyProjectControler {
                         });
                         yield facebookLoginDetails.save();
                     }
+                    // Check if facebook changed the photo url, if it changed update the document.
+                    const userFbPhoto = yield facebookLoginModel_1.default.find({ photo: req.user.photos[0].value });
+                    if (checkDuplicateId.photo !== userFbPhoto) {
+                        yield facebookLoginModel_1.default.updateOne({ id: req.user.id }, { photo: req.user.photos[0].value });
+                    }
                     res.redirect(`http://localhost:3000/ChatArea/:${code}?userid=${req.user.id}`);
                 }
             }
             catch (error) {
-                res.redirect(`http://localhost:3000/register`);
+                res.redirect(`http://localhost:3000`);
                 console.error(error);
             }
             ;

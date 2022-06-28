@@ -17,6 +17,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const mongodb_memory_server_1 = require("mongodb-memory-server");
 const db_1 = __importDefault(require("../../services/db"));
 const socketio_1 = __importDefault(require("../../services/socketio"));
+require("dotenv/config");
 let mongod;
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     mongod = yield mongodb_memory_server_1.MongoMemoryServer.create();

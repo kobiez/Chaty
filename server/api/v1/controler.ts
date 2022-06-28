@@ -26,7 +26,8 @@ class MyProjectControler {
 
         try {
             if (code) {
-                const checkDuplicateId: any = await facebookLoginModel.find({ _id: req.user.id })
+                const checkDuplicateId: any = await facebookLoginModel.find({ _id: req.user.id });
+                
                 if (!checkDuplicateId[0]) {
                     const facebookLoginDetails: any = new facebookLoginModel({
                         _id: req.user.id,
@@ -37,10 +38,16 @@ class MyProjectControler {
                     await facebookLoginDetails.save();
                 }
 
+                // Check if facebook changed the photo url, if it changed update the document.
+                const userFbPhoto: any = await facebookLoginModel.find({ photo: req.user.photos[0].value });
+                if (checkDuplicateId.photo !== userFbPhoto) {
+                    await facebookLoginModel.updateOne({ id: req.user.id }, { photo: req.user.photos[0].value })
+                }
+
                 res.redirect(`http://localhost:3000/ChatArea/:${code}?userid=${req.user.id}`)
             }
         } catch (error) {
-            res.redirect(`http://localhost:3000/register`)
+            res.redirect(`http://localhost:3000`)
             console.error(error)
         };
     };
