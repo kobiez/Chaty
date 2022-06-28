@@ -29,5 +29,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          context: ../../server
+          context: ./server
           tags: k081ez/chaty:latest
