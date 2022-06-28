@@ -8,12 +8,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
-      working-directory: server/api
+      working-directory: server
       run: yarn
       env: 
         CLIENT_ID: 1234567890
     - name: Run tests
-      working-directory: server
+      working-directory: server/api/v1
       run: yarn test
       env: 
         CLIENT_ID: 1234567890
