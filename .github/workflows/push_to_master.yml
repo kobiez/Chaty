@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - 'master'
+      - master
 
 jobs:
   docker:
@@ -23,6 +23,7 @@ jobs:
           password: ${{ secrets.MY_DOCKERHUB_PASSWORD}}
       -
         name: Build and push
+        working-directory: server
         uses: docker/build-push-action@v3
         with:
           push: true
