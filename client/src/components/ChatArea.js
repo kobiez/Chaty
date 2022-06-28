@@ -89,7 +89,7 @@ function ChatArea() {
                 </Col>
             </Row>
             <Row className='d-flex flex-nowrap align-items-start justify-content-between'>
-                <Col className='ms-4 me-2 my-2 rooms-area' xxl={2} xl={2} lg={2} md={3} sm={3} xs={2}>
+                <Col className='ms-4 me-2 my-2 rounded-2 rooms-area' xxl={2} xl={2} lg={2} md={3} sm={3} xs={2}>
                     rooms\online-users
                 </Col>
                 <Col className='ms-4'
