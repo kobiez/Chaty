@@ -77,7 +77,7 @@ function ChatArea() {
         <Container fluid className='justify-content-center main-chat-container' >
             <Row >
                 <Col >
-                    <h3 className='welcome-message text-muted bg-light mb-0' >Welcome {userName}</h3>
+                    <h3 className='welcome-message text-primary bg-light mb-0' >Welcome {userName}</h3>
                 </Col>
             </Row>
             <Row>
