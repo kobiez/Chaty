@@ -16,6 +16,9 @@ const io = new socket_io_1.Server(server, {
 });
 io.on("connection", (socket) => {
     console.log(`New socket connected: ${socket.id}`);
+    socket.on("joinRoom", (room) => {
+        socket.join(room);
+    });
     socket.on('message', (message) => {
         const now = new Date().getTime();
         const currentTime = (0, dayjs_1.default)(now).format('DD-MM-YYYY' + '  ' + 'HH:mm:ss');

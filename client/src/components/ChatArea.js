@@ -21,7 +21,10 @@ function ChatArea() {
             time: ''
         }),
         [showMessages, setShowMessages] = useState([]),
+        [roomToJoin, setRoomToJoin] = useState(''),
+        [allRooms, setAllRooms] = useState([]),
         clearInput = useRef(),
+        clearInputRoom = useRef(),
         autoScroll = useRef();
 
     useEffect(() => {
@@ -46,9 +49,23 @@ function ChatArea() {
         setNewMessage({ ...newMessage, message: messageText })
     }
 
-    function sendMessage(msgSent) {
-        socket.emit("message", msgSent);
+    function sendMessage(msgSent, room) {
+        socket.emit("message", msgSent, room);
         clearInput.current.value = '';
+    }
+
+    function userWillingRoom(room) {
+        setRoomToJoin(room)
+    }
+
+    function joinToRoom(wantedRoom) {
+        const findRoom = allRooms.find((room) => room === wantedRoom)
+        if (!findRoom) {
+            setAllRooms([...allRooms, roomToJoin])
+            socket.emit("joinRoom", wantedRoom)
+        }
+        socket.emit("joinRoom", wantedRoom)
+        clearInputRoom.current.value = ''
     }
 
     useEffect(() => {
@@ -72,7 +89,10 @@ function ChatArea() {
                 <span className='chat-bubble-span-time ms-3'>{message.time}</span>
             </span><br></br>
             <span className='chat-bubble-span-message'>{message.message}</span>
-        </div>)
+        </div>
+    )
+
+    const roomsMap = allRooms.map((room, index) => <p key={index}>{room}</p>)
 
     return (
         <Container fluid className='justify-content-center main-chat-container' >
@@ -93,7 +113,7 @@ function ChatArea() {
                 <Col className='ms-4 me-2 my-2 ' xxl={2} xl={2} lg={2} md={3} sm={3} xs={2}>
                     <Row>
                         <Col className='rooms-area rounded-2 mb-2'>
-                            rooms\online-users
+                            {roomsMap}
                         </Col>
                     </Row>
                     <Row>
@@ -104,11 +124,14 @@ function ChatArea() {
                                         <Form.Control className='room-input'
                                             type={'text'}
                                             placeholder="rooms"
-                                            ref={clearInput}
-                                        >
-                                        </Form.Control>
+                                            ref={clearInputRoom}
+                                            onChange={e => userWillingRoom(e.target.value)}
+                                        />
                                     </FloatingLabel>
-                                    <Button style={{ marginTop: '5px' }}>
+                                    <Button style={{ marginTop: '5px' }}
+                                        type="submit"
+                                        onClick={() => joinToRoom(roomToJoin)}
+                                    >
                                         Join\Create
                                     </Button>
                                 </Form.Group>
@@ -142,7 +165,7 @@ function ChatArea() {
                                     </FloatingLabel>
                                     <Button
                                         type='submit'
-                                        onClick={() => sendMessage(newMessage)}
+                                        onClick={() => sendMessage(newMessage, roomToJoin)}
                                         style={{ width: '30%', marginTop: '5px' }}
                                         className="bi bi-send"
                                     > Send
