@@ -1,6 +1,6 @@
 FROM node:16
 
-WORKDIR /src/app
+WORKDIR /chaty/server
 
 COPY package*.json ./
 COPY tsconfig.json ./
