@@ -68,16 +68,17 @@ function ChatArea() {
 
     const userMessageMap = showMessages.map((message, index) =>
         <div key={index} className="chat-bubble">
-            <span style={{ fontWeight: "bold", fontSize: '13px' }} >{message.user}</span><br></br>
-            <span style={{ position: 'relative', left: 0 }}>{message.message}</span>
-            <p className='message-time '>{message.time}</p>
+            <span className='chat-bubble-span-user'>{message.user}
+                <span className='chat-bubble-span-time ms-3'>{message.time}</span>
+            </span><br></br>
+            <span className='chat-bubble-span-message'>{message.message}</span>
         </div>)
 
     return (
         <Container fluid className='justify-content-center main-chat-container' >
             <Row >
                 <Col >
-                    <h3 className='welcome-message text-primary bg-light mb-0' >Welcome {userName}</h3>
+                    <h3 className='welcome-message text-primary bg-light my-0' >Welcome {userName}</h3>
                 </Col>
             </Row>
             <Row>
@@ -89,8 +90,31 @@ function ChatArea() {
                 </Col>
             </Row>
             <Row className='d-flex flex-nowrap align-items-start justify-content-between'>
-                <Col className='ms-4 me-2 my-2 rounded-2 rooms-area' xxl={2} xl={2} lg={2} md={3} sm={3} xs={2}>
-                    rooms\online-users
+                <Col className='ms-4 me-2 my-2 ' xxl={2} xl={2} lg={2} md={3} sm={3} xs={2}>
+                    <Row>
+                        <Col className='rooms-area rounded-2 mb-2'>
+                            rooms\online-users
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="p-0">
+                            <Form onSubmit={e => e.preventDefault()} >
+                                <Form.Group>
+                                    <FloatingLabel className='text-muted' label="Join\Create room" style={{ fontSize: '15px' }}>
+                                        <Form.Control className='room-input'
+                                            type={'text'}
+                                            placeholder="rooms"
+                                            ref={clearInput}
+                                        >
+                                        </Form.Control>
+                                    </FloatingLabel>
+                                    <Button style={{ marginTop: '5px' }}>
+                                        Join\Create
+                                    </Button>
+                                </Form.Group>
+                            </Form>
+                        </Col>
+                    </Row>
                 </Col>
                 <Col className='ms-4'
                     xxl={4} xl={5} lg={5} md={5} sm={5} xs={6}
@@ -103,13 +127,12 @@ function ChatArea() {
                             {userMessageMap}
                         </Col>
                     </Row>
-                    <Row>
+                    <Row >
                         <Col className="p-0">
                             <Form onSubmit={e => e.preventDefault()} >
                                 <Form.Group className='chat-box' >
-                                    <FloatingLabel label="My message:" className='text-muted'>
-                                        <Form.Control className='chat-input '
-                                            id="inputBox"
+                                    <FloatingLabel label="My message:" className='text-muted' >
+                                        <Form.Control className='chat-input'
                                             type={'text'}
                                             onChange={(e) => saveMessage(e.target.value)}
                                             autoComplete='off'

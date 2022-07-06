@@ -6,8 +6,8 @@ import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App container-fluid text-center">
-      <h1 className='headline display-4 text-primary fw-normal bg-light mb-0 pb-1'>
+    <div className="App text-center">
+      <h1 className='headline display-4 text-primary fw-normal bg-light mb-0 pb-2'>
         Chaty
       </h1>
       <Routes>

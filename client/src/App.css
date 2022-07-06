@@ -1,12 +1,11 @@
-.App,
+/* .App,
 .main-chat-container {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-}
+} */
 
 .headline {
-  color: rgb(217, 0, 255);
   padding: 0;
   font-size: 100px;
   margin: 0 auto;
@@ -15,8 +14,7 @@
 }
 
 .welcome-message {
-  color: rgb(5, 32, 239);
-  margin: 10px auto;
+  margin: 0 auto;
   padding: 0;
   font-size: 25px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -38,7 +36,17 @@
   max-width: 400px;
 }
 
-.message-time {
+.chat-bubble-span-user {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.chat-bubble-span-message {
+  position: relative;
+  left: 0;
+}
+
+.chat-bubble-span-time {
   font-style: italic;
   font-weight: lighter;
   color: gray;
@@ -47,6 +55,7 @@
   text-align: end;
 }
 
-.chat-input {
+.chat-input,
+.room-input {
   border: 1px solid rgba(13, 110, 253, 0.5);
 }
