@@ -15,14 +15,15 @@ function ChatArea() {
 
     const [userName, setUserName] = useState(''),
         [userPhoto, setUserPhoto] = useState(''),
+        [roomToJoin, setRoomToJoin] = useState(''),
+        [allRooms, setAllRooms] = useState([]),
         [newMessage, setNewMessage] = useState({
             message: '',
             user: '',
-            time: ''
+            time: '',
+            room: ''
         }),
         [showMessages, setShowMessages] = useState([]),
-        [roomToJoin, setRoomToJoin] = useState(''),
-        [allRooms, setAllRooms] = useState([]),
         clearInput = useRef(),
         clearInputRoom = useRef(),
         autoScroll = useRef();
@@ -49,24 +50,25 @@ function ChatArea() {
         setNewMessage({ ...newMessage, message: messageText })
     }
 
-    function sendMessage(msgSent, room) {
-        socket.emit("message", msgSent, room);
+    function sendMessage(msgSent) {
+        socket.emit("message", msgSent);
         clearInput.current.value = '';
     }
 
-    function userWillingRoom(room) {
+    /* function userWillingRoom(room) {
         setRoomToJoin(room)
     }
 
     function joinToRoom(wantedRoom) {
         const findRoom = allRooms.find((room) => room === wantedRoom)
         if (!findRoom) {
-            setAllRooms([...allRooms, roomToJoin])
-            socket.emit("joinRoom", wantedRoom)
+            setAllRooms([...allRooms, wantedRoom])
+            setNewMessage({ ...newMessage, room: roomToJoin })
         }
-        socket.emit("joinRoom", wantedRoom)
+        setNewMessage({ ...newMessage, room: roomToJoin })
         clearInputRoom.current.value = ''
-    }
+        socket.emit('joinRoom', wantedRoom)
+    } */
 
     useEffect(() => {
         socket.on("messageFromServer", (message, currentTime) => {
@@ -76,9 +78,7 @@ function ChatArea() {
                 time: currentTime
             }]])
         })
-    }, [showMessages])
 
-    useEffect(() => {
         autoScroll.current.autoFocus = true
         autoScroll.current.scrollTop = autoScroll.current.scrollHeight;
     }, [showMessages])
@@ -95,16 +95,16 @@ function ChatArea() {
     const roomsMap = allRooms.map((room, index) => <p key={index}>{room}</p>)
 
     return (
-        <Container fluid className='justify-content-center main-chat-container' >
+        <Container fluid className='justify-content-center main-chat-container'>
             <Row >
                 <Col >
-                    <h3 className='welcome-message text-primary bg-light my-0' >Welcome {userName}</h3>
+                    <h3 className='welcome-message text-primary bg-light my-0'>Welcome {userName}</h3>
                 </Col>
             </Row>
             <Row>
                 <Col className="bg-light">
                     <Image src={userPhoto}
-                        className="rounded-circle pb-1"
+                        className="rounded-circle py-2"
                         alt="userphoto"
                     />
                 </Col>
@@ -116,15 +116,16 @@ function ChatArea() {
                             {roomsMap}
                         </Col>
                     </Row>
-                    <Row>
+                    {/* <Row >
                         <Col className="p-0">
-                            <Form onSubmit={e => e.preventDefault()} >
+                            <Form onSubmit={e => e.preventDefault()}>
                                 <Form.Group>
                                     <FloatingLabel className='text-muted' label="Join\Create room" style={{ fontSize: '15px' }}>
                                         <Form.Control className='room-input'
                                             type={'text'}
                                             placeholder="rooms"
                                             ref={clearInputRoom}
+                                            name='room'
                                             onChange={e => userWillingRoom(e.target.value)}
                                         />
                                     </FloatingLabel>
@@ -137,7 +138,7 @@ function ChatArea() {
                                 </Form.Group>
                             </Form>
                         </Col>
-                    </Row>
+                    </Row> */}
                 </Col>
                 <Col className='ms-4'
                     xxl={4} xl={5} lg={5} md={5} sm={5} xs={6}
@@ -165,7 +166,7 @@ function ChatArea() {
                                     </FloatingLabel>
                                     <Button
                                         type='submit'
-                                        onClick={() => sendMessage(newMessage, roomToJoin)}
+                                        onClick={() => sendMessage(newMessage)}
                                         style={{ width: '30%', marginTop: '5px' }}
                                         className="bi bi-send"
                                     > Send
