@@ -94,7 +94,10 @@ function ChatyRegister() {
                 </Button>
             </Form.Group>
             <p className='lead'>Already registered?
-                <a href='http://localhost:3000/login' >Login</a>
+                <a href='http://localhost:3000/login'
+                    style={{ textDecoration: "none", marginLeft: '5px' }}>
+                    <b>Login</b>
+                </a>
             </p>
             <p className='lead'>or</p>
             <Button className='mb-4'>

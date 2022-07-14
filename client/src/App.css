@@ -30,20 +30,31 @@
   text-align: left;
 }
 
+.chat-bubble-me {
+  background-color: rgba(13, 110, 253, 0.47);
+}
+
+.chat-bubble-other {
+  background-color: linen;
+}
+
 .rooms-area {
   border: 1px solid rgba(13, 110, 253, 0.5);
   height: 800px;
   max-width: 400px;
+  text-align: left;
 }
 
 .chat-bubble-span-user {
   font-weight: bold;
   font-size: 13px;
+  margin-left: 5%;
 }
 
 .chat-bubble-span-message {
   position: relative;
   left: 0;
+  margin-left: 5%;
 }
 
 .chat-bubble-span-time {
@@ -55,7 +66,12 @@
   text-align: end;
 }
 
-.chat-input,
+.chat-input {
+  border: 1px solid rgba(13, 110, 253, 0.5);
+}
+
 .room-input {
   border: 1px solid rgba(13, 110, 253, 0.5);
+  width: 40vw;
+  margin-top: 5px;
 }

@@ -16,10 +16,21 @@ const io = new socket_io_1.Server(server, {
 });
 io.on("connection", (socket) => {
     console.log(`New socket connected: ${socket.id}`);
-    socket.on('message', (message) => {
+    socket.on("joinRoom", (room, userName) => {
+        socket.join(room);
         const now = new Date().getTime();
         const currentTime = (0, dayjs_1.default)(now).format('DD-MM-YYYY' + '  ' + 'HH:mm:ss');
-        io.emit('messageFromServer', message, currentTime);
+        const adminHello = {
+            user: "Admin",
+            message: `${userName} just connected to room "${room}"`
+        };
+        socket.broadcast.to(room).emit("messageFromServer", adminHello, currentTime);
+    });
+    socket.on('message', (message) => {
+        message = Object.assign(Object.assign({}, message), { socket: socket.id });
+        const now = new Date().getTime();
+        const currentTime = (0, dayjs_1.default)(now).format('DD-MM-YYYY' + '  ' + 'HH:mm:ss');
+        io.to(message.room).emit('messageFromServer', message, currentTime);
     });
     socket.on("disconnect", (reason) => {
         console.log(`${socket.id} is disconnected because ${reason}`);
