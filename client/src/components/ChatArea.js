@@ -30,10 +30,6 @@ function ChatArea() {
     const clearInputRoom = useRef()
     const autoScroll = useRef()
 
-    /* console.log('server socket :' + socketFromServer)
-    console.log('client socket :' + socket.id)
-    console.log(showMessages) */
-
     useEffect(() => {
         async function fetchData() {
             const serchParam = queryString.parse(window.location.search);
