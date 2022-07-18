@@ -38,8 +38,6 @@ class MyProjectControler {
                     await facebookLoginDetails.save();
                 }
 
-                // Check if facebook changed the photo url, if it changed update the document.
-                //const userFbPhoto: any = await facebookLoginModel.find({ photo: req.user.photos[0].value });
                 if (checkDuplicateId[0].photo !== req.user.photos[0].value) {
                     await facebookLoginModel.updateOne({ _id: req.user.id }, { photo: req.user.photos[0].value })
                 }
