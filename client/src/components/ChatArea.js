@@ -87,12 +87,13 @@ function ChatArea() {
 
         autoScroll.current.autoFocus = true
         autoScroll.current.scrollTop = autoScroll.current.scrollHeight;
+
     }, [showMessages])
 
     const userMessageMap = showMessages.map((message, index) => {
         if (socket.id === message.socket) {
             return (
-                < div key={index} className="chat-bubble-me my-1 me-5 rounded-5">
+                < div key={index} className="chat-bubble-me mt-1 me-5 rounded-5">
                     <span className='chat-bubble-span-user'>{message.user}
                         <span className='chat-bubble-span-time ms-3'>{message.time}</span>
                     </span><br></br>
@@ -101,16 +102,14 @@ function ChatArea() {
             )
         }
         return (
-            < div key={index} className="chat-bubble-other my-1 ms-5 rounded-5">
+            < div key={index} className="chat-bubble-other mt-1 ms-5 rounded-5">
                 <span className='chat-bubble-span-user'>{message.user}
                     <span className='chat-bubble-span-time ms-3'>{message.time}</span>
                 </span><br></br>
                 <span className='chat-bubble-span-message'>{message.message}</span>
             </div >
         )
-    }
-
-    )
+    })
 
     const roomsMap = allRooms.map((room, index) =>
         <p key={index}>
@@ -119,7 +118,7 @@ function ChatArea() {
     )
 
     return (
-        <Container fluid className='justify-content-center main-chat-container'>
+        <Container fluid className='justify-content-center main-chat-container p-0'>
             <Row >
                 <Col >
                     <h3 className='welcome-message text-primary bg-light my-0'>Welcome {userName}</h3>

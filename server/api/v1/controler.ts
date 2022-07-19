@@ -8,13 +8,17 @@ class MyProjectControler {
     static async registerLogic(req: Request, res: Response, next: NextFunction) {
         try {
             const hashedPasswors: string = await registerModel.hashingPassword(req.body.password);
+
             const registerDetails: mongoose.Document = new registerModel({
                 name: req.body.name,
                 email: req.body.email,
                 password: hashedPasswors
             })
+
             await registerDetails.save();
+
             res.send(registerDetails);
+            
         } catch (error) {
             console.error(error);
             res.status(500).send({ error: 'User already exsit' })

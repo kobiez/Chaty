@@ -45,7 +45,7 @@ function ChatyRegister() {
             console.error(error);
         }
     }
-    // 
+
     return (
         <Container className="justify-content-center border border-0 rounded-5 bg-light">
             <Row >
