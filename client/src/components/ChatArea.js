@@ -13,16 +13,22 @@ const socket = io('http://localhost:9000');
 
 function ChatArea() {
 
-    const [userName, setUserName] = useState(''),
-        [userPhoto, setUserPhoto] = useState(''),
-        [newMessage, setNewMessage] = useState({
-            message: '',
-            user: '',
-            time: ''
-        }),
-        [showMessages, setShowMessages] = useState([]),
-        clearInput = useRef(),
-        autoScroll = useRef();
+    const [userName, setUserName] = useState('')
+    const [userPhoto, setUserPhoto] = useState('')
+    const [isDisplayed, setIsDisplayed] = useState(true)
+    const [roomToJoin, setRoomToJoin] = useState('')
+    const [allRooms, setAllRooms] = useState([])
+    const [newMessage, setNewMessage] = useState({
+        socket: '',
+        message: '',
+        user: '',
+        time: '',
+        room: ''
+    })
+    const [showMessages, setShowMessages] = useState([])
+    const clearInput = useRef()
+    const clearInputRoom = useRef()
+    const autoScroll = useRef()
 
     useEffect(() => {
         async function fetchData() {
@@ -51,86 +57,163 @@ function ChatArea() {
         clearInput.current.value = '';
     }
 
+    function userWillingRoom(room) {
+        setRoomToJoin(room)
+    }
+
+    function joinToRoom(wantedRoom) {
+        if (wantedRoom) {
+            const findRoom = allRooms.find((room) => room === wantedRoom)
+            if (!findRoom) {
+                setAllRooms([...allRooms, wantedRoom])
+                setNewMessage({ ...newMessage, room: roomToJoin })
+            }
+            setNewMessage({ ...newMessage, room: roomToJoin })
+            setIsDisplayed(!isDisplayed)
+            clearInputRoom.current.value = ''
+            socket.emit('joinRoom', wantedRoom, userName)
+        }
+    }
+
     useEffect(() => {
         socket.on("messageFromServer", (message, currentTime) => {
             setShowMessages([...showMessages, ...[{
                 user: message.user,
                 message: message.message,
-                time: currentTime
+                time: currentTime,
+                socket: message.socket
             }]])
         })
-    }, [showMessages])
 
-    useEffect(() => {
         autoScroll.current.autoFocus = true
         autoScroll.current.scrollTop = autoScroll.current.scrollHeight;
+
     }, [showMessages])
 
-    const userMessageMap = showMessages.map((message, index) =>
-        <div key={index} className="chat-bubble">
-            <span style={{ fontWeight: "bold", fontSize: '13px' }} >{message.user}</span><br></br>
-            <span style={{ position: 'relative', left: 0 }}>{message.message}</span>
-            <p className='message-time '>{message.time}</p>
-        </div>)
+    const userMessageMap = showMessages.map((message, index) => {
+        if (socket.id === message.socket) {
+            return (
+                < div key={index} className="chat-bubble-me mt-1 me-5 rounded-5">
+                    <span className='chat-bubble-span-user'>{message.user}
+                        <span className='chat-bubble-span-time ms-3'>{message.time}</span>
+                    </span><br></br>
+                    <p className='chat-bubble-span-message'>{message.message}</p>
+                </div >
+            )
+        }
+        return (
+            < div key={index} className="chat-bubble-other mt-1 ms-5 rounded-5">
+                <span className='chat-bubble-span-user'>{message.user}
+                    <span className='chat-bubble-span-time ms-3'>{message.time}</span>
+                </span><br></br>
+                <span className='chat-bubble-span-message'>{message.message}</span>
+            </div >
+        )
+    })
+
+    const roomsMap = allRooms.map((room, index) =>
+        <p key={index}>
+            <a href='#' className='text-decoration-none'>{room}</a>
+        </p>
+    )
 
     return (
-        <Container fluid className='justify-content-center main-chat-container' >
+        <Container fluid className='justify-content-center main-chat-container p-0'>
             <Row >
                 <Col >
-                    <h3 className='welcome-message text-muted bg-light mb-0' >Welcome {userName}</h3>
+                    <h3 className='welcome-message text-primary bg-light my-0'>Welcome {userName}</h3>
                 </Col>
             </Row>
             <Row>
                 <Col className="bg-light">
                     <Image src={userPhoto}
-                        className="rounded-circle pb-1"
+                        className="rounded-circle py-2"
                         alt="userphoto"
                     />
                 </Col>
             </Row>
-            <Row className='d-flex flex-nowrap align-items-start justify-content-between'>
-                <Col className='ms-4 me-2 my-2 rounded-2 rooms-area' xxl={2} xl={2} lg={2} md={3} sm={3} xs={2}>
-                    rooms\online-users
-                </Col>
-                <Col className='ms-4'
-                    xxl={4} xl={5} lg={5} md={5} sm={5} xs={6}
-                    style={{ marginRight: "35%" }}
-                >
-                    <Row>
-                        <Col className='view-chat rounded-2 my-2'
-                            ref={autoScroll}
-                        >
-                            {userMessageMap}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="p-0">
-                            <Form onSubmit={e => e.preventDefault()} >
-                                <Form.Group className='chat-box' >
-                                    <FloatingLabel label="My message:" className='text-muted'>
-                                        <Form.Control className='chat-input '
-                                            id="inputBox"
-                                            type={'text'}
-                                            onChange={(e) => saveMessage(e.target.value)}
-                                            autoComplete='off'
-                                            ref={clearInput}
-                                            placeholder="Message"
-                                        />
-                                    </FloatingLabel>
-                                    <Button
-                                        type='submit'
-                                        onClick={() => sendMessage(newMessage)}
-                                        style={{ width: '30%', marginTop: '5px' }}
-                                        className="bi bi-send"
-                                    > Send
-                                    </Button>
-                                </Form.Group>
-                            </Form>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-        </Container>
+            <Container className='d-flex justify-content-center'>
+                <Row className={isDisplayed ? '' : 'd-none'}>
+                    <Col className='justify-content-center'>
+                        <Form onSubmit={e => e.preventDefault()}>
+                            <Form.Group>
+                                <FloatingLabel className='text-muted'
+                                    label="Join\Create room"
+                                    style={{ fontSize: '15px' }}
+                                >
+                                    <Form.Control required className='room-input'
+                                        type={'text'}
+                                        placeholder="rooms"
+                                        ref={clearInputRoom}
+                                        name='room'
+                                        onChange={e => userWillingRoom(e.target.value)}
+                                    />
+                                </FloatingLabel>
+                                <Button style={{ marginTop: '5px', width: "20vw" }}
+                                    type="submit"
+                                    onClick={() => joinToRoom(roomToJoin)}
+                                >
+                                    Join\Create
+                                </Button>
+                            </Form.Group>
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>
+            <Container className={isDisplayed ? 'd-none' : ''}>
+                <Row className='d-flex flex-nowrap align-items-start justify-content-between'>
+                    <Col className='ms-4 me-2 my-2 ' xxl={2} xl={2} lg={2} md={3} sm={3} xs={2}>
+                        <Row>
+                            <Col className='rooms-area rounded-2 mb-2'>
+                                <Row>
+                                    <h6 className="bg-light text-center text-primary pb-1">
+                                        Rooms
+                                    </h6>
+                                </Row>
+                                {roomsMap}
+                            </Col>
+                        </Row>
+
+                    </Col>
+                    <Col className='ms-4'
+                        xxl={4} xl={5} lg={5} md={5} sm={5} xs={6}
+                        style={{ marginRight: "35%" }}
+                    >
+                        <Row>
+                            <Col className='view-chat rounded-2 my-2 p-0'
+                                ref={autoScroll}
+                            >
+                                {userMessageMap}
+                            </Col>
+                        </Row>
+                        <Row >
+                            <Col className="p-0">
+                                <Form onSubmit={e => e.preventDefault()} >
+                                    <Form.Group className='chat-box' >
+                                        <FloatingLabel label="My message:" className='text-muted' >
+                                            <Form.Control className='chat-input'
+                                                type={'text'}
+                                                onChange={(e) => saveMessage(e.target.value)}
+                                                autoComplete='off'
+                                                ref={clearInput}
+                                                placeholder="Message"
+                                            />
+                                        </FloatingLabel>
+                                        <Button
+                                            type='submit'
+                                            onClick={() => sendMessage(newMessage)}
+                                            style={{ width: '30%', marginTop: '5px' }}
+                                            className="bi bi-send"
+                                        > Send
+                                        </Button>
+                                    </Form.Group>
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Container >
+        </Container >
     )
 }
 
