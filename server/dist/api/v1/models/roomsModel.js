@@ -16,16 +16,12 @@ const roomsSchema = new mongoose_1.default.Schema({
     },
     users: [String],
     messages: [{
-            _id: {
-                type: mongoose_1.default.Schema.Types.ObjectId,
-                required: true
-            },
             userName: {
                 type: String,
                 required: true
             },
             sendDate: {
-                type: Date,
+                type: String,
                 required: true
             },
             messageBody: {

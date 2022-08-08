@@ -52,12 +52,22 @@ io.on("connection", (socket) => {
             return yield isRoom.save();
         }
     }));
-    socket.on('message', (message) => {
+    socket.on('message', (message) => __awaiter(void 0, void 0, void 0, function* () {
         message = Object.assign(Object.assign({}, message), { socket: socket.id });
+        console.log(message);
         const now = new Date().getTime();
         const currentTime = (0, dayjs_1.default)(now).format('DD-MM-YYYY' + '  ' + 'HH:mm:ss');
         io.to(message.room).emit('messageFromServer', message, currentTime);
-    });
+        const findRoom = yield roomsModel_1.default.findOne({ roomName: message.room });
+        yield findRoom.updateOne({
+            messages: [...findRoom.messages, {
+                    userName: message.user,
+                    sendDate: currentTime,
+                    messageBody: message.message
+                }]
+        });
+        yield findRoom.save();
+    }));
     socket.on("disconnect", (reason) => {
         console.log(`${socket.id} is disconnected because ${reason}`);
     });

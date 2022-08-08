@@ -45,19 +45,30 @@ io.on("connection", (socket: Socket): void => {
         const isUserInRoom: undefined | string = isRoom.users.find((user: string) => user === userName)
 
         if (!isUserInRoom) {
-            await isRoom.updateOne({ users: [...isRoom.users, userName]});
+            await isRoom.updateOne({ users: [...isRoom.users, userName] });
 
             return await isRoom.save();
         }
     })
 
-    socket.on('message', (message) => {
+    socket.on('message', async (message) => {
         message = { ...message, socket: socket.id }
-
+        console.log(message)
         const now = new Date().getTime()
         const currentTime = dayjs(now).format('DD-MM-YYYY' + '  ' + 'HH:mm:ss')
 
         io.to(message.room).emit('messageFromServer', message, currentTime)
+
+        const findRoom = await roomsModel.findOne({ roomName: message.room })
+
+        await findRoom.updateOne({
+            messages: [...findRoom.messages, {
+                userName: message.user,
+                sendDate: currentTime,
+                messageBody: message.message
+            }]
+        })
+        await findRoom.save();
     })
 
     socket.on("disconnect", (reason) => {
